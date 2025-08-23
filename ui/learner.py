@@ -1,4 +1,5 @@
-# ui/app.py
+# ui/learner.py - Heart Disease Prediction App
+# Deployed on Streamlit Community Cloud
 
 import streamlit as st
 import joblib
@@ -6,14 +7,19 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import sys
 import os
+import sys
 
-# Add parent directory to path so we can import custom_transformers
+# ✅ Fix 1: Add parent directory to path for custom_transformers
+# This allows import from root
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# ✅ Now import the custom transformer
-from customer_tans import FeatureSelector
+# ✅ Fix 2: Correct import (was: customer_tans → now: custom_transformers)
+try:
+    from custom_transformers import FeatureSelector
+except ImportError as e:
+    st.sidebar.error("❌ Failed to import FeatureSelector. Check file location.")
+    st.stop()
 
 # ----------------------------
 # App Configuration
@@ -32,25 +38,37 @@ st.markdown("### Predict heart disease risk using machine learning")
 # ----------------------------
 @st.cache_resource
 def load_model():
-    try:
-        model = joblib.load("./models/final_model.pkl")  # Correct path
-        st.sidebar.success("✅ Model loaded!")
-        return model
-    except Exception as e:
-        st.sidebar.error(f"❌ Error loading model: {e}")
-        return None
+    # ✅ Try multiple paths (cloud vs local)
+    possible_paths = [
+        "../models/final_model.pkl",   # When running from ui/
+        "models/final_model.pkl",
+        "./models/final_model.pkl"
+    ]
+    for path in possible_paths:
+        try:
+            model = joblib.load(path)
+            st.sidebar.success(f"✅ Model loaded from {path}")
+            return model
+        except Exception as e:
+            st.sidebar.warning(f"⚠️ Not found: {path}")
+            continue
+    st.sidebar.error("❌ Could not load model. Check path and file.")
+    return None
 
 model = load_model()
 
-# Get feature names from model (if available)
+# ----------------------------
+# Get Selected Features from Model
+# ----------------------------
 selected_features = []
 if model is not None:
     try:
         selected_features = model.named_steps['feature_selector'].selected_features
-    except:
-        pass
+        st.sidebar.success("✅ Feature selector loaded")
+    except Exception as e:
+        st.sidebar.warning(f"⚠️ Could not extract features: {e}")
 
-# Fallback if we couldn't extract from model
+# Fallback feature list
 if not selected_features:
     selected_features = [
         'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg',
@@ -59,7 +77,7 @@ if not selected_features:
         'slope_1', 'slope_2', 'ca_1.0', 'ca_2.0', 'ca_3.0',
         'thal_6.0', 'thal_7.0'
     ]
-    st.warning("⚠️ Could not extract selected features from model. Using default.")
+    st.warning("⚠️ Using default feature list.")
 
 # ----------------------------
 # Sidebar: Input Form
@@ -125,13 +143,32 @@ input_data = pd.DataFrame([{
 cat_cols = ['cp', 'restecg', 'slope', 'ca', 'thal']
 input_encoded = pd.get_dummies(input_data, columns=cat_cols, drop_first=True)
 
-# Add missing one-hot columns (if any)
+# Add missing one-hot columns
 for col in selected_features:
     if col not in input_encoded.columns:
         input_encoded[col] = 0
 
 # Reorder to match training
 input_encoded = input_encoded[selected_features]
+
+# ----------------------------
+# 🔎 Sensitivity Test (Fixed: Apply before prediction)
+# ----------------------------
+st.sidebar.markdown("### 🔎 Sensitivity Test")
+oldpeak_override = st.sidebar.slider(
+    "Simulate ST Depression (Oldpeak)", 
+    0.0, 6.2, float(oldpeak), 0.1
+)
+input_encoded['oldpeak'] = oldpeak_override  # ✅ Override before prediction
+
+# Show if oldpeak is used
+try:
+    if 'oldpeak' not in selected_features:
+        st.warning("⚠️ `oldpeak` is NOT in the model — changing it has no effect!")
+    else:
+        st.success("✅ `oldpeak` is in the model — changes will affect prediction.")
+except:
+    st.info("Could not verify feature list.")
 
 # ----------------------------
 # Real-Time Prediction with Submit Button
@@ -145,13 +182,11 @@ if st.button("🔍 Predict Heart Disease Risk"):
             prob = model.predict_proba(input_encoded)[0]
             risk = prob[1] * 100
 
-            # Display result
             if pred == 1:
                 st.error(f"🔴 High Risk: Patient has heart disease (Probability: {risk:.1f}%)")
             else:
                 st.success(f"🟢 Low Risk: Patient does not have heart disease (Probability: {100-risk:.1f}%)")
 
-            # Progress bar
             st.progress(int(risk))
             st.markdown(f"**Risk Level:** `{risk:.1f}%`")
 
@@ -194,23 +229,10 @@ with col2:
     ax.set_title("Chest Pain Types")
     plt.xticks(rotation=45)
     st.pyplot(fig)
-st.sidebar.markdown("### 🔎 Sensitivity Test")
-oldpeak_override = st.sidebar.slider(
-    "Simulate ST Depression (Oldpeak)", 
-    0.0, 6.0, 1.0, 0.1
-)
-input_encoded['oldpeak'] = oldpeak_override
-try:
-    selected_features = model.named_steps['feature_selector'].selected_features
-    if 'oldpeak' not in selected_features:
-        st.warning("⚠️ `oldpeak` is NOT in the model! That's why it has no effect.")
-    else:
-        st.success("✅ `oldpeak` is in the model.")
-except Exception as e:
-    st.error(f"Error accessing features: {e}")
+
 # ----------------------------
 # Footer
 # ----------------------------
 st.markdown("---")
-st.markdown("💡 **Note**: This app uses a machine learning model trained  made by YM at sprints X microsoft on the UCI Heart Disease dataset.")
+st.markdown("💡 **Note**: This app uses a machine learning model trained by YM at Microsoft Sprints X on the UCI Heart Disease dataset.")
 st.caption("Built with Streamlit | Heart Disease Project © 2025")

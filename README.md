@@ -2,13 +2,23 @@
 
 > 🫀 **Predict heart disease risk using machine learning **  
 > Built as the **final project for Microsoft Sprints X** 🚀
-## 🏆🐳 Microsoft Sprints X
+## 🐳 Microsoft Sprints X
 
 This project was developed as part of **Microsoft Sprints X**, a hands-on AI/ML training program designed to empower developers with real-world machine learning experience.
 
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org)
 
-🎓 Skills demonstrated:
+## 🏆 Final Model: Logistic Regression
+
+✅ **Model Used**: `Logistic Regression`  
+📊 **F1-Score**: `0.877`  
+🎯 **AUC**: `0.951`  
+🔍 **Why?** Logistic Regression provides stable, interpretable results with excellent balance of precision and recall.
+
+> This model was selected as the final pipeline due to its high F1-score and reliability on imbalanced medical data.
+
+---
+## 🎓 Skills demonstrated:
 - End-to-end ML pipeline
 - Model interpretability
 - Production-ready deployment

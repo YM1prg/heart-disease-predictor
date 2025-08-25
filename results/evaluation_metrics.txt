@@ -1,0 +1,36 @@
+📊 Heart Disease Prediction - Model Evaluation Report
+====================================================
+
+Test Set Size: 61 samples
+Target: Binary (0 = No Disease, 1 = Has Disease)
+Features Used: 10 (RFE + Key Clinical)
+
+🎯 Model: Logistic Regression
+   Accuracy  = 0.885
+   Precision = 0.877
+   Recall    = 0.893
+   F1-Score  = 0.877
+   AUC       = 0.951
+
+🎯 Model: Decision Tree
+   Accuracy  = 0.820
+   Precision = 0.818
+   Recall    = 0.820
+   F1-Score  = 0.819
+   AUC       = 0.864
+
+🎯 Model: Random Forest
+   Accuracy  = 0.902
+   Precision = 0.889
+   Recall    = 0.857
+   F1-Score  = 0.867
+   AUC       = 0.949
+
+🎯 Model: SVM
+   Accuracy  = 0.868
+   Precision = 0.875
+   Recall    = 0.750
+   F1-Score  = 0.808
+   AUC       = 0.949
+
+🏆 Best Model by AUC: Logistic Regression

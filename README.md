@@ -7,7 +7,19 @@
 This project was developed as part of **Microsoft Sprints X**, a hands-on AI/ML training program designed to empower developers with real-world machine learning experience.
 
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org)
+## 📌 Important Note: For Learning Only
 
+> ⚠️ **This pipeline is a learning project — NOT a medical diagnostic tool.**
+
+- ❌ **Do not use this app to diagnose or treat heart disease**
+- 🧪 It was trained on a small dataset (303 patients) for educational purposes
+- 📚 Designed to teach ML concepts: preprocessing, modeling, deployment
+- 🛑 Not validated for clinical use
+- 📉 Performance may vary in real-world settings
+
+> This project is part of **Microsoft Sprints X** to build foundational AI/ML skills — not to replace professional medical advice.
+
+---
 ## 🏆 Final Model: Logistic Regression
 
 ✅ **Model Used**: `Logistic Regression`  

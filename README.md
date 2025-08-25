@@ -1,15 +1,12 @@
 # ❤️ Heart Disease Prediction Pipeline
 
-![Heart Animation](https://github.com/your-username/heart-disease-predictor/assets/your-id/12345678-9abc-def0-1234-56789abcdef0) <!-- Optional: Add GIF later -->
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app.streamlit.app)
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org)
-
 > 🫀 **Predict heart disease risk using machine learning **  
 > Built as the **final project for Microsoft Sprints X** 🚀
-## 🏆 Microsoft Sprints X
+## 🏆🐳 Microsoft Sprints X
 
 This project was developed as part of **Microsoft Sprints X**, a hands-on AI/ML training program designed to empower developers with real-world machine learning experience.
+
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org)
 
 🎓 Skills demonstrated:
 - End-to-end ML pipeline
@@ -17,7 +14,6 @@ This project was developed as part of **Microsoft Sprints X**, a hands-on AI/ML 
 - Production-ready deployment
 - UI/UX for healthcare applications
 
----
 ---
 
 ## 🎯 Project Overview
@@ -31,17 +27,6 @@ Built during **Microsoft Sprints X**, this project demonstrates end-to-end ML de
 - ✅ Model optimization & deployment
 - ✅ Interactive UI with real-time predictions
 
-## 🌐 Deployed on Streamlit Cloud
-
-![Streamlit](https://docs.streamlit.io/images/streamlit-logo-primary-colormark-darktext.svg)
-
-Deployed using **Streamlit Community Cloud** – no servers, no hassle.
-
-👉 **Try it live**: [https://your-app.streamlit.app](https://your-app.streamlit.app)
-
----
-
----
 
 ## 🧰 Tech Stack
 

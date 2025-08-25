@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # ✅ Fix 2: Correct import (was: customer_tans → now: custom_transformers)
 try:
-    from custom_transformers import FeatureSelector
+    from customer_tans import FeatureSelector
 except ImportError as e:
     st.sidebar.error("❌ Failed to import FeatureSelector. Check file location.")
     st.stop()

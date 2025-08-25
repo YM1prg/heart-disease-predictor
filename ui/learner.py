@@ -2,7 +2,7 @@
 # Deployed on Streamlit Community Cloud
 
 import streamlit as st
-import joblib
+import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -35,7 +35,13 @@ st.markdown("### Predict heart disease risk using machine learning")
 
 # ----------------------------
 # Load Model Pipeline
+## ----------------------------
+# Load Model Pipeline using pickle
 # ----------------------------
+import pickle
+import streamlit as st
+import os
+
 @st.cache_resource
 def load_model():
     # ✅ Try multiple paths (cloud vs local)
@@ -44,19 +50,26 @@ def load_model():
         "models/final_model.pkl",
         "./models/final_model.pkl"
     ]
+    
     for path in possible_paths:
         try:
-            model = joblib.load(path)
+            with open(path, 'rb') as f:
+                model = pickle.load(f)
             st.sidebar.success(f"✅ Model loaded from {path}")
             return model
+        except FileNotFoundError:
+            st.sidebar.warning(f"⚠️ Model file not found: {path}")
+        except PermissionError:
+            st.sidebar.error(f"❌ Permission denied when reading: {path}")
         except Exception as e:
-            st.sidebar.warning(f"⚠️ Not found: {path}")
+            st.sidebar.error(f"❌ Failed to load model from {path}: {str(e)}")
             continue
+
     st.sidebar.error("❌ Could not load model. Check path and file.")
     return None
 
+# Load the model
 model = load_model()
-
 # ----------------------------
 # Get Selected Features from Model
 # ----------------------------

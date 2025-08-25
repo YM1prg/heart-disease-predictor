@@ -1,8 +1,8 @@
 # ❤️ Heart Disease Prediction Pipeline
 
 > 🫀 **Predict heart disease risk using machine learning **  
-> Built as the **final project for Microsoft Sprints X** 🚀
-## 🐳 Microsoft Sprints X
+> Built as the **final project for Sprints X Microsoft** 🚀
+## 🐳 Sprints X Microsoft
 
 This project was developed as part of **Microsoft Sprints X**, a hands-on AI/ML training program designed to empower developers with real-world machine learning experience.
 
